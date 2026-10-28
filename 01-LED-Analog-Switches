@@ -1,3 +1,5 @@
+// A system of 2 switches that control the brightness of a red LED using an ESP32 microcontroller and the Arduino IDE.
+
 #define LEDpin 2
 int brightness 155 // Initial brightness of the LED
 #define switchHigh 18
