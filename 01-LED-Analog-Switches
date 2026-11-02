@@ -1,22 +1,32 @@
 // A system of 2 switches that control the brightness of a red LED using an ESP32 microcontroller and the Arduino IDE.
 
 #define LEDpin 2
-int brightness 155 // Initial brightness of the LED
-#define switchHigh 18
-#define switchLow 19
+#define switchControl 19 // Controls whether the value of brightness should change depending on if it is held or not
+#define switchBrightness 18 // Controls whether the value of brightness increases or decreases depending on if it is held or not
+
+int brightness = 155;
 
 void setup() {
-  // put your setup code here, to run once:
-pinMode(LEDpin, OUTPUT);
-pinMode(switchHigh, INPUT_PULLUP);
-pinMode(switchLow, INPUT_PULLUP);
+  pinMode(LEDpin, OUTPUT);
+  pinMode(switchControl, INPUT_PULLUP);
+  pinMode(switchBrightness, INPUT_PULLUP);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-delay(10);
-analogWrite(LEDpin, brightness);
+  if (digitalRead(switchControl) == LOW) {
+    if (digitalRead(switchBrightness) == HIGH) {
+      brightness += 10;
+      delay(200);
+    }
 
+    if (digitalRead(switchBrightness) == LOW) {
+      brightness -= 10;
+      delay(200);
+    }
+  }
 
+  brightness = constrain(brightness, 0, 255); // Prevents the value of brightness from going above 255
+  analogWrite(LEDpin, brightness);
+
+  delay(50);
 }
-
